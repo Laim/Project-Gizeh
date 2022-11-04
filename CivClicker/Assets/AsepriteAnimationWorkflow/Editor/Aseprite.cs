@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
-using UnityEditor.Experimental.AssetImporters;
+
 
 namespace APIShift.AsepriteAnimationWorkflow
 {
@@ -58,7 +58,7 @@ namespace APIShift.AsepriteAnimationWorkflow
             _frameSize.y,
             framePixels);
 
-        var spriteData = new SpriteImportData
+        var spriteData = new UnityEditor.AssetImporters.SpriteImportData
         {
           rect = spriteRect,
           pivot = settings.PivotValue
@@ -173,7 +173,7 @@ namespace APIShift.AsepriteAnimationWorkflow
     private static Sprite CreateNamedSprite(
       string name,
       Texture2D texture,
-      SpriteImportData importData,
+      UnityEditor.AssetImporters.SpriteImportData importData,
       AsepriteImporterSettings settings)
     {
       var sprite = Sprite.Create(

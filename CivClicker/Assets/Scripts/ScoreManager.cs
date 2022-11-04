@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     private TMP_Text PLAYER_SCORE_LABEL;
-    public BigInteger PLAYER_SCORE_VALUE = 9999999;
+    public BigInteger PLAYER_SCORE_VALUE = 20000;
     private TMP_Text PLAYER_RATE_LABEL;
     public float PLAYER_RATE_VALUE = 0; // rate per second
 

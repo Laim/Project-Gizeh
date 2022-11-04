@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.AssetImporters;
+
 
 namespace APIShift.AsepriteAnimationWorkflow
 {
@@ -20,7 +20,7 @@ namespace APIShift.AsepriteAnimationWorkflow
       _animations = animations;
     }
 
-    public void AddToContext(AssetImportContext ctx)
+    public void AddToContext(UnityEditor.AssetImporters.AssetImportContext ctx)
     {
       ctx.AddObjectToAsset(_spritesheet.name, _spritesheet);
       foreach (var sprite in _sprites)

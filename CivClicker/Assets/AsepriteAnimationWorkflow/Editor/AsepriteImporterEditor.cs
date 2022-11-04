@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using UnityEditor.Experimental.AssetImporters;
+
 
 namespace APIShift.AsepriteAnimationWorkflow
 {
   [CustomEditor(typeof(AsepriteImporter)), CanEditMultipleObjects]
-  public class AsepriteImporterEditor : ScriptedImporterEditor
+  public class AsepriteImporterEditor : UnityEditor.AssetImporters.ScriptedImporterEditor
   {
     public override void OnInspectorGUI()
     {
