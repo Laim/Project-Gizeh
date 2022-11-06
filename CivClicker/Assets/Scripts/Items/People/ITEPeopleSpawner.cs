@@ -3,28 +3,39 @@ using UnityEngine;
 public class ITEPeopleSpawner : MonoBehaviour
 {
     [SerializeField] private AvailablePeople PERSON;
-    [SerializeField] private Transform SPAWN_LOCATION;
+    
+    public Vector3 DEFAULT_SPAWN;
+    public static ITEPeopleSpawner instance;
 
-    private int PEOPLE_SPAWNED;
-
-    private void Update()
+    public ITEPeopleSpawner()
     {
-        if (ScoreManager.instance.PLAYER_RATE_VALUE > 99 && PEOPLE_SPAWNED == 0)
+        if(instance == null)
         {
-            Spawn();
-            PEOPLE_SPAWNED++;
-        }
-
-        if (ScoreManager.instance.PLAYER_RATE_VALUE > 599 && PEOPLE_SPAWNED == 1)
-        {
-            Spawn();
-            PEOPLE_SPAWNED++;
+            instance = this;
         }
     }
 
-    void Spawn()
+    private void Awake()
     {
-        GameObject proj = Instantiate(PERSON.Random, SPAWN_LOCATION.position, new Quaternion(0, 0, 0f, 0));
-        proj.transform.position = SPAWN_LOCATION.position;
+        // not allowed to call gameObject in the constructor
+        // have to call it in Awake or Start instead
+        DEFAULT_SPAWN = gameObject.transform.position;
+    }
+
+    public void Spawn(string pos = null)
+    {
+        Vector3 spawnPos;
+
+        if(pos == null)
+        {
+            spawnPos = new Vector3(-10.23f, -4.03f, 0f);
+        } else
+        {
+            spawnPos = pos.StringToVector3();
+        }
+
+        Instantiate(PERSON.Random, position: spawnPos, new Quaternion(0, 0, 0f, 0));
+
+        ScoreManager.instance.IncreasePlayerRate(1, this);
     }
 }

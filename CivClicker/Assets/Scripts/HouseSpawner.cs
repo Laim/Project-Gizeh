@@ -101,4 +101,10 @@ public class HouseSpawner : MonoBehaviour
 
         Debug.Log($"House Count: {count}");
     }
+
+    // Used for spawning houses when player loads save
+    public void SpawnHouseSaveLoad(string pos)
+    {
+        Instantiate(AVAILABLE_HOUSES.BASE_HOUSE, position: pos.StringToVector3(), rotation: Quaternion.identity);
+    }
 }

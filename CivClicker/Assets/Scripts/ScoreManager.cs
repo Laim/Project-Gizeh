@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     private TMP_Text PLAYER_SCORE_LABEL;
-    public BigInteger PLAYER_SCORE_VALUE = 20000;
+    public BigInteger PLAYER_SCORE_VALUE = 100000;
     private TMP_Text PLAYER_RATE_LABEL;
     public float PLAYER_RATE_VALUE = 0; // rate per second
 
@@ -47,9 +47,10 @@ public class ScoreManager : MonoBehaviour
         PLAYER_SCORE_VALUE += (BigInteger)amount;
     }
 
-    public void IncreasePlayerRate(float amount)
+    public void IncreasePlayerRate(float amount, object sender)
     {
         PLAYER_RATE_VALUE += amount;
-        Debug.Log($"Run {amount}");
+
+        Debug.Log($"Increase by {amount} - {sender}");
     }
 }

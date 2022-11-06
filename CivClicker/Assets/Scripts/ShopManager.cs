@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using TMPro;
 using UnityEngine;
@@ -33,6 +34,8 @@ public class ShopManager : MonoBehaviour
         {
             SHOP_AUTOCLICK_ITEM = GameObject.Find("CLICKER_NEW_COST");
             SHOP_AUTOCLICK_ITEM.GetComponent<TMP_Text>().text = $"{CLICKER_AUTO_COST:N0}c";
+
+            GameObject.Find("CLICKER_OWNED_COUNT").GetComponent<TMP_Text>().text = CLICKER_AUTO_COUNT.ToString("N0");
         }
 
         if(SHOP_HOUSE_ITEM == null)
@@ -65,6 +68,15 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public void RefreshWindow()
+    {
+        GameObject.Find("CLICKER_OWNED_COUNT").GetComponent<TMP_Text>().text = CLICKER_AUTO_COUNT.ToString("N0");
+        SHOP_AUTOCLICK_ITEM.GetComponent<TMP_Text>().text = $"{CLICKER_AUTO_COST:N0}c";
+
+        GameObject.Find("HOUSE_OWNED_COUNT").GetComponent<TMP_Text>().text = $"{CLICKER_HOUSE_COUNT:N0}/{SHOP_HOUSE_MAXIUM}";
+        SHOP_HOUSE_ITEM.GetComponent<TMP_Text>().text = $"{CLICKER_HOUSE_COST:N0}c";
+    }
+
     /// <summary>
     /// Purchases a new AutoClicker and runs the relevant methods
     /// </summary>
@@ -81,10 +93,17 @@ public class ShopManager : MonoBehaviour
             ScoreManager.instance.PLAYER_SCORE_VALUE -= (BigInteger)CLICKER_AUTO_COST; // remove the clicker cost from our score
             CLICKER_AUTO_COST += CLICKER_AUTO_COST.Percentage(6.31383f); // increase the cost of our auto clickers by 6.31383%
 
-            GameObject.Find("CLICKER_OWNED_COUNT").GetComponent<TMP_Text>().text = CLICKER_AUTO_COUNT.ToString("N0");
-            SHOP_AUTOCLICK_ITEM.GetComponent<TMP_Text>().text = $"{CLICKER_AUTO_COST:N0}c";
+            RefreshWindow();
 
-            ScoreManager.instance.IncreasePlayerRate(CLICKER_AUTO_VALUE);
+            ScoreManager.instance.IncreasePlayerRate(CLICKER_AUTO_VALUE, this);
+
+            float[] ClickersRequired = new float[] { 5, 10, 20, 50, 70, 100, 150, 200, 500, 800, 1000 };
+
+            if(ClickersRequired.Contains(CLICKER_AUTO_COUNT))
+            {
+                ITEPeopleSpawner.instance.Spawn();
+            }
+
         }
     }
 
@@ -100,8 +119,7 @@ public class ShopManager : MonoBehaviour
             CLICKER_HOUSE_COST += CLICKER_HOUSE_COST.Percentage(40); // increase the cost of our house clickers by 8%
 
             // Update the Shop page for the total owned houses + the current cost for a new house
-            GameObject.Find("HOUSE_OWNED_COUNT").GetComponent<TMP_Text>().text = $"{CLICKER_HOUSE_COUNT:N0}/{SHOP_HOUSE_MAXIUM}";
-            SHOP_HOUSE_ITEM.GetComponent<TMP_Text>().text = $"{CLICKER_HOUSE_COST:N0}c";
+            RefreshWindow();
 
             // spawn a new house on the map somewhere
             // This then triggers Items\ITEHouse.cs which is assigned to each object under the prefab

@@ -28,6 +28,10 @@ public class ITEHouse : MonoBehaviour, IPurchaseItems
     public TMP_Text MANUAL_VALUE;
     public GameObject UPGRADE_MENU;
 
+    // not currently implemented but used in Save/LoadData for 
+    // respawnning the correct house when used
+    public int UPGRADE_LEVEL;
+
     public ITEHouse()
     {
         if(_itemUgradePrice == 0)
@@ -47,7 +51,7 @@ public class ITEHouse : MonoBehaviour, IPurchaseItems
 
         // We run this on awake instead of Run()
         // so the rate doesn't increase every second lol
-        ScoreManager.instance.IncreasePlayerRate(_itemValue);
+        ScoreManager.instance.IncreasePlayerRate(_itemValue, this);
     }
 
     private void OnDisable()
